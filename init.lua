@@ -27,7 +27,9 @@ require("lazy").setup({
 		'nvim-telescope/telescope.nvim', tag = '0.1.6',
 		dependencies = { 'nvim-lua/plenary.nvim' }
 	},
-	{ 'numToStr/Comment.nvim', opts = {} },
+	{ 
+		'numToStr/Comment.nvim', opts = {} 
+	},
 	{
 		'nvim-lualine/lualine.nvim',
 		dependencies = { 'nvim-tree/nvim-web-devicons' }
@@ -36,6 +38,16 @@ require("lazy").setup({
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" }
+	},
+	{
+		"williamboman/mason.nvim"
+	},
+	{
+		"mfussenegger/nvim-jdtls",
+		ft = { "java" },
+		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
+		}
 	}
 })
 
@@ -60,3 +72,6 @@ vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
 vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
 vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
 vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
+
+-- lsp
+require('mason').setup()
