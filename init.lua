@@ -343,6 +343,18 @@ require('lazy').setup({
 
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
+      --
+      --
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'TelescopeResults',
+        callback = function(ctx)
+          vim.api.nvim_buf_call(ctx.buf, function()
+            vim.fn.matchadd('TelescopeParent', '\t\t.*$')
+            vim.api.nvim_set_hl(0, 'TelescopeParent', { link = 'Comment' })
+          end)
+        end,
+      })
+
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
@@ -357,6 +369,16 @@ require('lazy').setup({
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
+        },
+        defaults = {
+          path_display = function(_, path)
+            local tail = vim.fs.basename(path)
+            local parent = vim.fs.dirname(path)
+            if parent == '.' then
+              return tail
+            end
+            return string.format('%s\t\t%s', tail, parent)
+          end,
         },
       }
 
@@ -417,6 +439,13 @@ require('lazy').setup({
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
       { 'folke/neodev.nvim', opts = {} },
+      {
+        'mfussenegger/nvim-jdtls',
+        requires = {
+          'mfussenegger/nvim-dap',
+          'mfussenegger/nvim-dap-java',
+        },
+      },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -572,6 +601,7 @@ require('lazy').setup({
           staticcheck = true,
           gofumpt = true,
         },
+        jdtls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -587,6 +617,8 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'gopls',
+        'jdtls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -600,6 +632,7 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+          ['jdtls'] = function() end,
         },
       }
     end,
@@ -837,7 +870,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
 
@@ -847,6 +880,41 @@ require('lazy').setup({
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local harpoon = require 'harpoon'
+      -- REQUIRED
+      harpoon:setup()
+      -- REQUIRED
+      vim.keymap.set('n', '<leader>a', function()
+        harpoon:list():append()
+      end)
+      vim.keymap.set('n', '<C-e>', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end)
+      vim.keymap.set('n', '<C-s>', function()
+        harpoon:list():select(1)
+      end)
+      vim.keymap.set('n', '<C-j>', function()
+        harpoon:list():select(2)
+      end)
+      vim.keymap.set('n', '<C-k>', function()
+        harpoon:list():select(3)
+      end)
+      vim.keymap.set('n', '<C-l>', function()
+        harpoon:list():select(4)
+      end)
+      vim.keymap.set('n', '<C-S-P>', function()
+        harpoon:list():prev()
+      end)
+      vim.keymap.set('n', '<C-S-N>', function()
+        harpoon:list():next()
+      end)
+    end,
+  },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
@@ -869,5 +937,6 @@ require('lazy').setup({
   },
 })
 
+require 'custom.plugins.java'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
