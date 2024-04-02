@@ -50,17 +50,17 @@ local config = {
       },
       configuration = {
         updateBuildConfiguration = 'interactive',
-        runtimes = {
-          {
-            name = 'JavaSE-11',
-            path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\11.0.22-tem\\',
-          },
-        },
+        -- runtimes = {
+        --   {
+        --     name = 'JavaSE-11',
+        --     path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\11.0.22-tem\\',
+        --   },
+        -- },
       },
       maven = {
         downloadSources = true,
-        userSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
-        globalSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
+        -- userSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
+        -- globalSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
       },
       implementationsCodeLens = {
         enabled = true,
