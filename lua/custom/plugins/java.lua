@@ -50,17 +50,17 @@ local config = {
       },
       configuration = {
         updateBuildConfiguration = 'interactive',
-        -- runtimes = {
-        --   {
-        --     name = 'JavaSE-11',
-        --     path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\11.0.22-tem\\',
-        --   },
-        -- },
+        runtimes = {
+          {
+            name = 'JavaSE-11',
+            path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\11.0.22-tem\\',
+          },
+        },
       },
       maven = {
         downloadSources = true,
-        -- userSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
-        -- globalSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
+        userSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
+        globalSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
       },
       implementationsCodeLens = {
         enabled = true,
@@ -112,6 +112,6 @@ vim.api.nvim_create_autocmd('Filetype', {
   pattern = 'java', -- autocmd to start jdtls
   callback = function()
     require('jdtls').start_or_attach(config)
-    require('jdtls.dap').setup_dap_main_class_configs()
+    -- require('jdtls.dap').setup_dap_main_class_configs()
   end,
 })
