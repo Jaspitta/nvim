@@ -55,6 +55,10 @@ local config = {
             name = 'JavaSE-11',
             path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\11.0.22-tem\\',
           },
+          {
+            name = 'JavaSE-1.8',
+            path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\8.0.402-tem\\',
+          },
         },
       },
       maven = {
