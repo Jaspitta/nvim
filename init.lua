@@ -603,6 +603,7 @@ require('lazy').setup({
           gofumpt = true,
         },
         jdtls = {},
+        pyright = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -622,6 +623,7 @@ require('lazy').setup({
         'jdtls',
         'emmet-language-server',
         'emmet-ls',
+        'pyright',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
