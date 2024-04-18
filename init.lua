@@ -601,9 +601,11 @@ require('lazy').setup({
           },
           staticcheck = true,
           gofumpt = true,
+          single_file_support = true,
         },
         jdtls = {},
         pyright = {},
+        tsserver = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -624,6 +626,7 @@ require('lazy').setup({
         'emmet-language-server',
         'emmet-ls',
         'pyright',
+        'tsserver',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -635,6 +638,7 @@ require('lazy').setup({
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            server.single_file_support = true
             require('lspconfig')[server_name].setup(server)
           end,
           ['jdtls'] = function() end,
@@ -845,7 +849,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'java' },
+      -- ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'java' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
