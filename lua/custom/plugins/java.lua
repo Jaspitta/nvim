@@ -20,6 +20,16 @@ elseif vim.fn.has 'win32' == 1 then
   os = 'win'
 end
 
+local runtimes = {}
+if nil ~= JAVA_RUNTIMES then
+  runtimes = JAVA_RUNTIMES
+end
+
+local maven = {}
+if nil ~= MAVEN_CONF then
+  maven = MAVEN_CONF
+end
+
 local config = {
   cmd = {
     'java',
@@ -50,22 +60,9 @@ local config = {
       },
       configuration = {
         updateBuildConfiguration = 'interactive',
-        runtimes = {
-          {
-            name = 'JavaSE-11',
-            path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\11.0.22-tem\\',
-          },
-          {
-            name = 'JavaSE-1.8',
-            path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\8.0.402-tem\\',
-          },
-        },
+        runtimes = runtimes,
       },
-      maven = {
-        downloadSources = true,
-        userSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
-        globalSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
-      },
+      maven = maven,
       implementationsCodeLens = {
         enabled = true,
       },

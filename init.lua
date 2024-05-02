@@ -1,3 +1,11 @@
+-- user config, file to create only if necessary under /lua/user/config.lua, do not commit the file
+for _, searcher in ipairs(package.loaders) do
+  local loader = searcher 'user.config'
+  if type(loader) == 'function' then
+    require 'user.config'
+  end
+end
+
 --[[
 
 =====================================================================
@@ -986,8 +994,6 @@ require 'custom.plugins.java'
 --
 
 -- Toggle term basic config
-vim.cmd [[let &shell = '"C:/Users/U482024/scoop/apps/git/current/bin/bash.exe"']]
-vim.cmd [[let &shellcmdflag = '-s']]
 require('toggleterm').setup {
   open_mapping = '<A-/>',
   start_in_insert = true,
