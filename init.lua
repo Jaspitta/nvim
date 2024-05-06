@@ -612,7 +612,9 @@ require('lazy').setup({
           single_file_support = true,
         },
         jdtls = {},
-        pyright = {},
+        pyright = {
+          single_file_support = true,
+        },
         tsserver = {},
       }
 
