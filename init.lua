@@ -611,7 +611,9 @@ require('lazy').setup({
           gofumpt = true,
           single_file_support = true,
         },
-        jdtls = {},
+        jdtls = {
+          single_file_support = true,
+        },
         pyright = {
           single_file_support = true,
         },
@@ -962,9 +964,32 @@ require('lazy').setup({
   {
     'akinsho/toggleterm.nvim',
     version = '*',
+    config = function()
+      require 'user.config'
+      require('toggleterm').setup {
+        open_mapping = '<A-/>',
+        start_in_insert = true,
+        direction = 'float',
+      }
+    end,
   },
   {
     'ThePrimeagen/vim-be-good',
+  },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    -- optional dependencies
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('oil').setup {
+        columns = { 'icons' },
+        view_options = {
+          show_hidden = true,
+        },
+      }
+      vim.keymap.set('n', '<leader>et', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+    end,
   },
 }, {
   ui = {
@@ -988,7 +1013,7 @@ require('lazy').setup({
   },
 })
 
-require 'custom.plugins.java'
+-- require 'custom.plugins.java'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 --
@@ -996,8 +1021,3 @@ require 'custom.plugins.java'
 --
 
 -- Toggle term basic config
-require('toggleterm').setup {
-  open_mapping = '<A-/>',
-  start_in_insert = true,
-  direction = 'float',
-}
