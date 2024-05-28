@@ -1,10 +1,10 @@
--- user config, file to create only if necessary under /lua/user/config.lua, do not commit the file
-for _, searcher in ipairs(package.loaders) do
-  local loader = searcher 'user.config'
-  if type(loader) == 'function' then
-    require 'user.config'
-  end
-end
+-- -- user config, file to create only if necessary under /lua/user/config.lua, do not commit the file
+-- for _, searcher in ipairs(package.loaders) do
+--   local loader = searcher 'user.config'
+--   if type(loader) == 'function' then
+--     require 'user.config'
+--   end
+-- end
 
 --[[
 
@@ -173,7 +173,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+vim.keymap.set('n', '<leader>em', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -329,6 +329,10 @@ require('lazy').setup({
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+
+      {
+        'nvim-telescope/telescope-live-grep-args.nvim',
+      },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -430,6 +434,10 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      -- rip grep with args config
+      require('telescope').load_extension 'live_grep_args'
+      vim.keymap.set('n', '<leader>ga', builtin.buffers, { desc = 'live search [G]rep with [A]rgs' })
     end,
   },
 
@@ -450,10 +458,6 @@ require('lazy').setup({
       { 'folke/neodev.nvim', opts = {} },
       {
         'mfussenegger/nvim-jdtls',
-        requires = {
-          'mfussenegger/nvim-dap',
-          'mfussenegger/nvim-dap-java',
-        },
       },
     },
     config = function()
@@ -617,7 +621,9 @@ require('lazy').setup({
         pyright = {
           single_file_support = true,
         },
-        tsserver = {},
+        tsserver = {
+          single_file_support = true,
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -658,7 +664,6 @@ require('lazy').setup({
       }
     end,
   },
-
   { -- Autoformat
     'stevearc/conform.nvim',
     opts = {
@@ -967,9 +972,10 @@ require('lazy').setup({
     config = function()
       require 'user.config'
       require('toggleterm').setup {
+        size = 70,
         open_mapping = '<A-/>',
         start_in_insert = true,
-        direction = 'float',
+        direction = 'vertical',
       }
     end,
   },
@@ -1019,5 +1025,3 @@ require('lazy').setup({
 --
 -- require('cmp').setup { completion = { autocomplete = { require('cmp.types').cmp.TriggerEvent.InsertEnter } } }
 --
-
--- Toggle term basic config
