@@ -997,6 +997,11 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>et', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
     end,
   },
+  {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {},
+  },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
