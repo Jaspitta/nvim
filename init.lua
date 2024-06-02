@@ -99,7 +99,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -159,6 +159,7 @@ vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
+-- vim.opt.guicursor = 'n-v-c-sm:hor20,i-ci-ve:ver25-Cursor,r-cr-o:hor20'
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
@@ -806,20 +807,16 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'rebelot/kanagawa.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'kanagawa'
+    'projekt0n/github-nvim-theme',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('github-theme').setup {
+        -- ...
+      }
 
-      -- You can configure highlights by doing something like:
-      -- vim.cmd.hi 'Comment gui=none'
+      vim.cmd 'colorscheme github_dark'
     end,
-    -- opts = {
-    --   transparent = true,
-    -- },
   },
 
   -- Highlight todo, notes, etc in comments
@@ -973,10 +970,16 @@ require('lazy').setup({
       require 'user.config'
       require('toggleterm').setup {
         size = 70,
-        open_mapping = '<A-/>',
+        -- open_mapping = '<A-/>',
         start_in_insert = true,
-        direction = 'vertical',
+        -- direction = 'vertical',
       }
+      vim.keymap.set('n', '<leader>tf', function()
+        require('toggleterm').toggle(nil, nil, nil, 'float', nil)
+      end, { desc = '[T]erminal [F]loat' })
+      vim.keymap.set('n', '<A-/>', function()
+        require('toggleterm').toggle(nil, 70, nil, 'vertical', nil)
+      end, { desc = 'Terminal Vertical' })
     end,
   },
   {
