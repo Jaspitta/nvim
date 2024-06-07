@@ -334,6 +334,9 @@ require('lazy').setup({
       {
         'nvim-telescope/telescope-live-grep-args.nvim',
       },
+      {
+        'm-demare/attempt.nvim',
+      },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -438,6 +441,7 @@ require('lazy').setup({
 
       -- rip grep with args config
       require('telescope').load_extension 'live_grep_args'
+
       vim.keymap.set('n', '<leader>ga', builtin.buffers, { desc = 'live search [G]rep with [A]rgs' })
     end,
   },
@@ -1004,6 +1008,26 @@ require('lazy').setup({
     'pmizio/typescript-tools.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
     opts = {},
+  },
+  {
+    'm-demare/attempt.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-telescope/telescope-ui-select.nvim',
+    },
+    config = function()
+      require('attempt').setup {
+        ext_options = { 'md', 'txt', '' },
+        format_opts = { [''] = '[None]' },
+      }
+      pcall(require('telescope').load_extension, 'attempt')
+
+      local attempt = require 'attempt'
+
+      vim.keymap.set('n', '<leader>an', attempt.new_select, { desc = '[A]ttempt [N]ew' })
+      vim.keymap.set('n', '<leader>al', 'Telescope attempt', { desc = '[A]ttempt [L]ist', silent = true })
+    end,
   },
 }, {
   ui = {
