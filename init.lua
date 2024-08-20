@@ -442,7 +442,40 @@ require('lazy').setup({
       -- rip grep with args config
       require('telescope').load_extension 'live_grep_args'
 
-      vim.keymap.set('n', '<leader>ga', builtin.buffers, { desc = 'live search [G]rep with [A]rgs' })
+      vim.keymap.set('n', '<leader>ga', function()
+        require('telescope').extensions.live_grep_args.live_grep_args()
+      end, { desc = 'live search [G]rep with [A]rgs' })
+
+      -- remove buffer from list
+      vim.keymap.set('n', '<c-z>', function(opts)
+        local action_state = require 'telescope.actions.state'
+        local actions = require 'telescope.actions'
+        opts = opts or {}
+        opts.previewer = false
+        -- opts.sort_lastused = true
+        -- opts.show_all_buffers = true
+        -- opts.shorten_path = false
+        opts.attach_mappings = function(prompt_bufnr, map)
+          local delete_buf = function()
+            local current_picker = action_state.get_current_picker(prompt_bufnr)
+            local multi_selections = current_picker:get_multi_selection()
+
+            if next(multi_selections) == nil then
+              local selection = action_state.get_selected_entry()
+              actions.close(prompt_bufnr)
+              vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+            else
+              actions.close(prompt_bufnr)
+              for _, selection in ipairs(multi_selections) do
+                vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+              end
+            end
+          end
+          map('i', '<C-x>', delete_buf)
+          return true
+        end
+        require('telescope.builtin').buffers(require('telescope.themes').get_dropdown(opts))
+      end, { desc = 'delete selected buffers from buffer list' })
     end,
   },
 
@@ -629,6 +662,9 @@ require('lazy').setup({
         tsserver = {
           single_file_support = true,
         },
+        clangd = {
+          single_file_support = true,
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -650,6 +686,7 @@ require('lazy').setup({
         'emmet-ls',
         'pyright',
         'tsserver',
+        'clangd',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -819,7 +856,7 @@ require('lazy').setup({
         -- ...
       }
 
-      vim.cmd 'colorscheme github_dark'
+      vim.cmd 'colorscheme github_dark_default'
     end,
   },
 
@@ -1018,7 +1055,7 @@ require('lazy').setup({
     },
     config = function()
       require('attempt').setup {
-        ext_options = { 'md', 'txt', '' },
+        ext_options = { 'md', 'txt', 'java', 'py', '' },
         format_opts = { [''] = '[None]' },
       }
       pcall(require('telescope').load_extension, 'attempt')
@@ -1026,7 +1063,7 @@ require('lazy').setup({
       local attempt = require 'attempt'
 
       vim.keymap.set('n', '<leader>an', attempt.new_select, { desc = '[A]ttempt [N]ew' })
-      vim.keymap.set('n', '<leader>al', 'Telescope attempt', { desc = '[A]ttempt [L]ist', silent = true })
+      vim.keymap.set('n', '<leader>al', 'Telescope attempt', { desc = '[A]ttempt [L]ist' })
     end,
   },
 }, {
