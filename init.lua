@@ -734,7 +734,7 @@ require('lazy').setup({
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
+    -- event = 'InsertEnter',
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       {
@@ -784,7 +784,7 @@ require('lazy').setup({
           completeopt = 'menu,menuone,noinsert',
           -- Triggering autocomplete window only when jumping into insert mode and now by default when typing
           autocomplete = {
-            require('cmp.types').cmp.TriggerEvent.InsertEnter,
+            -- require('cmp.types').cmp.TriggerEvent.InsertEnter,
           },
         },
 
@@ -810,7 +810,7 @@ require('lazy').setup({
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
+          ['<M-l>'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
@@ -849,14 +849,43 @@ require('lazy').setup({
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'projekt0n/github-nvim-theme',
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
+    lazy = false,
+    priority = 1000,
     config = function()
       require('github-theme').setup {
-        -- ...
+        options = {
+          styles = {
+            comments = 'italic',
+            keywords = 'italic',
+            types = 'italic,bold',
+            functions = 'italic',
+            constants = 'bold',
+          },
+          modules = {
+            cmp = true,
+            dapui = true,
+            dashboard = true,
+            diagnostic = true,
+            diffchar = true,
+            fzf = true,
+            gitgutter = true,
+            gitsigns = true,
+            indent_blankline = true,
+            lsp_trouble = true,
+            mini = true,
+            native_lsp = true,
+            neogit = true,
+            neotree = true,
+            nvimtree = true,
+            telescope = true,
+            treesitter = true,
+            treesitter_context = true,
+            whichkey = true,
+          },
+        },
       }
 
-      vim.cmd 'colorscheme github_dark_default'
+      vim.cmd.colorscheme 'github_dark_default'
     end,
   },
 
@@ -1065,6 +1094,10 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>an', attempt.new_select, { desc = '[A]ttempt [N]ew' })
       vim.keymap.set('n', '<leader>al', 'Telescope attempt', { desc = '[A]ttempt [L]ist' })
     end,
+  },
+  {
+    'kevinhwang91/nvim-bqf',
+    ft = 'qf',
   },
 }, {
   ui = {
