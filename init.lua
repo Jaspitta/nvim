@@ -199,7 +199,6 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -290,7 +289,7 @@ require('lazy').setup({
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').register {
+      require('which-key').add {
         ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
@@ -496,6 +495,11 @@ require('lazy').setup({
       { 'folke/neodev.nvim', opts = {} },
       {
         'mfussenegger/nvim-jdtls',
+        ft = { 'java' },
+        dependencies = {
+          'williamboman/mason-lspconfig.nvim',
+          'mfussenegger/nvim-dap',
+        },
       },
     },
     config = function()
@@ -659,7 +663,7 @@ require('lazy').setup({
         pyright = {
           single_file_support = true,
         },
-        tsserver = {
+        ts_ls = {
           single_file_support = true,
         },
         clangd = {
@@ -685,7 +689,7 @@ require('lazy').setup({
         'emmet-language-server',
         'emmet-ls',
         'pyright',
-        'tsserver',
+        'typescript-language-server',
         'clangd',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -1098,6 +1102,46 @@ require('lazy').setup({
   {
     'kevinhwang91/nvim-bqf',
     ft = 'qf',
+  },
+  {
+    'mg979/vim-visual-multi',
+  },
+  {
+    'folke/trouble.nvim',
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
+    cmd = 'Trouble',
+    keys = {
+      {
+        '<leader>xx',
+        '<cmd>Trouble diagnostics toggle<cr>',
+        desc = 'Diagnostics (Trouble)',
+      },
+      {
+        '<leader>xX',
+        '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
+        desc = 'Buffer Diagnostics (Trouble)',
+      },
+      {
+        '<leader>cs',
+        '<cmd>Trouble symbols toggle focus=false<cr>',
+        desc = 'Symbols (Trouble)',
+      },
+      {
+        '<leader>cl',
+        '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
+        desc = 'LSP Definitions / references / ... (Trouble)',
+      },
+      {
+        '<leader>xL',
+        '<cmd>Trouble loclist toggle<cr>',
+        desc = 'Location List (Trouble)',
+      },
+      {
+        '<leader>xQ',
+        '<cmd>Trouble qflist toggle<cr>',
+        desc = 'Quickfix List (Trouble)',
+      },
+    },
   },
 }, {
   ui = {

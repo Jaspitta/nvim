@@ -147,7 +147,7 @@ local config = {
   --   '-configuration',
   --   vim.fn.expand '$MASON/share/jdtls/config',
   --   '-data',
-  --   -- vim.fn.expand '~/AppData/Local/nvim-data/mason/bin/jdtls.cmd',
+  --   vim.fn.expand '~/AppData/Local/nvim-data/mason/bin/jdtls.cmd',
   --   workspace_dir,
   -- },
   root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
@@ -225,10 +225,7 @@ local config = {
   filetypes = { 'java' },
   on_attach = function(client, bufrnr)
     require('jdtls').setup_dap { config_overrides = {}, hotcodereplace = 'auto' }
-    local status, jdtls_dap = pcall(require, 'jdtls.dap')
-    if status then
-      jdtls_dap.setup_dap_main_class_configs()
-    end
+    require('jdtls.dap').setup_dap_main_class_configs()
   end,
 }
 

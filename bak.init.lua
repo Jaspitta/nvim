@@ -15,94 +15,97 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+  vim.fn.system {
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
     lazypath,
-  })
+  }
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
-	{
-		'nvim-telescope/telescope.nvim', tag = '0.1.6',
-		dependencies = { 'nvim-lua/plenary.nvim' }
-	},
-	{ 
-		'numToStr/Comment.nvim', opts = {} 
-	},
-	{
-		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' }
-	},
-	{
-		"ThePrimeagen/harpoon",
-		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim" }
-	},
-	{
-		'neovim/nvim-lspconfig',
-		dependencies = {
-			'williamboman/mason.nvim',
-			{
-				"mfussenegger/nvim-jdtls",
-				ft = { "java" },
-				dependencies = {
-					"williamboman/mason-lspconfig.nvim",
-				},
-			},
-			'williamboman/mason-lspconfig.nvim',
-			'WhoIsSethDaniel/mason-tool-installer.nvim',
-			{ 'folke/neodev.nvim', opts = {} },
-		},
-		config = function()
-			local servers = {
-				lua_ls = {
-					settings = {
-						Lua = {
-							completion = {
-								callSnippet = 'Replace',
-							},
-						},
-					},
-				},
-			}
-		end
-	},
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		config = function () 
-			local configs = require("nvim-treesitter.configs")
-			configs.setup({
-				ensure_installed = { 
-					"c",
-					"lua",
-					"vim",
-					"vimdoc",
-					"query",
-					"elixir",
-					"heex",
-					"javascript",
-					"html",
-					"java" 
-				},
-				sync_install = false,
-				highlight = { enable = true },
-				indent = { enable = true },  
-			})
-		end
-	}
-})
+require('lazy').setup {
+  {
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.6',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  },
+  {
+    'numToStr/Comment.nvim',
+    opts = {},
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+  },
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  },
+  {
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      'williamboman/mason.nvim',
+      {
+        'mfussenegger/nvim-jdtls',
+        ft = { 'java' },
+        dependencies = {
+          'williamboman/mason-lspconfig.nvim',
+          'mfussenegger/nvim-dap',
+        },
+      },
+      'williamboman/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
+      { 'folke/neodev.nvim', opts = {} },
+    },
+    config = function()
+      local servers = {
+        lua_ls = {
+          settings = {
+            Lua = {
+              completion = {
+                callSnippet = 'Replace',
+              },
+            },
+          },
+        },
+      }
+    end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    config = function()
+      local configs = require 'nvim-treesitter.configs'
+      configs.setup {
+        ensure_installed = {
+          'c',
+          'lua',
+          'vim',
+          'vimdoc',
+          'query',
+          'elixir',
+          'heex',
+          'javascript',
+          'html',
+          'java',
+        },
+        sync_install = false,
+        highlight = { enable = true },
+        indent = { enable = true },
+      }
+    end,
+  },
+}
 
 -- telescope
-local builtin = require('telescope.builtin')
+local builtin = require 'telescope.builtin'
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
@@ -112,16 +115,28 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 require('lualine').setup()
 
 -- harpoon
-local harpoon = require('harpoon')
-harpoon:setup({})
+local harpoon = require 'harpoon'
+harpoon:setup {}
 
-vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
-vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+vim.keymap.set('n', '<leader>a', function()
+  harpoon:list():append()
+end)
+vim.keymap.set('n', '<C-e>', function()
+  harpoon.ui:toggle_quick_menu(harpoon:list())
+end)
 
-vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
-vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
-vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
-vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
+vim.keymap.set('n', '<C-h>', function()
+  harpoon:list():select(1)
+end)
+vim.keymap.set('n', '<C-t>', function()
+  harpoon:list():select(2)
+end)
+vim.keymap.set('n', '<C-n>', function()
+  harpoon:list():select(3)
+end)
+vim.keymap.set('n', '<C-s>', function()
+  harpoon:list():select(4)
+end)
 
 -- lsp
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -153,69 +168,62 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 require('mason').setup()
-require("mason-lspconfig").setup(
-{
-	otps = {
-		ensure_installed = {
-			"jdtls",
-			"lemminx",
-		},
-	},
-})
+require('mason-lspconfig').setup {
+  otps = {
+    ensure_installed = {
+      'jdtls',
+      'lemminx',
+    },
+  },
+}
 
 -- -- jdtls
 
-local status, jdtls = pcall(require, "jdtls")
+local status, jdtls = pcall(require, 'jdtls')
 if not status then
   return
 end
 
-local home = os.getenv "HOME"
-local workspace_path = home .. "/.local/share/lunarvim/jdtls-workspace/"
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local home = os.getenv 'HOME'
+local workspace_path = home .. '/.local/share/lunarvim/jdtls-workspace/'
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local workspace_dir = workspace_path .. project_name
 
-local os_config = "linux"
-if vim.fn.has "mac" == 1 then
-  os_config = "mac"
+local os_config = 'linux'
+if vim.fn.has 'mac' == 1 then
+  os_config = 'mac'
 end
 
 local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
 local bundles = {}
-local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
-vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. "packages/java-test/extension/server/*.jar"), "\n"))
-vim.list_extend(
-  bundles,
-  vim.split(
-    vim.fn.glob(mason_path .. "packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"),
-    "\n"
-  )
-)
+local mason_path = vim.fn.glob(vim.fn.stdpath 'data' .. '/mason/')
+vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. 'packages/java-test/extension/server/*.jar'), '\n'))
+vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. 'packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar'), '\n'))
 local config = {
   cmd = {
-    "java",
-    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-    "-Dosgi.bundles.defaultStartLevel=4",
-    "-Declipse.product=org.eclipse.jdt.ls.core.product",
-    "-Dlog.protocol=true",
-    "-Dlog.level=ALL",
-    "-Xms1g",
-    "--add-modules=ALL-SYSTEM",
-    "--add-opens",
-    "java.base/java.util=ALL-UNNAMED",
-    "--add-opens",
-    "java.base/java.lang=ALL-UNNAMED",
-    "-javaagent:" .. home .. "/.local/share/nvim/mason/packages/jdtls/lombok.jar",
-    "-jar",
-    vim.fn.glob(home .. "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
-    "-configuration",
-    home .. "/.local/share/nvim/mason/packages/jdtls/config_" .. os_config,
-    "-data",
+    'java',
+    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+    '-Dosgi.bundles.defaultStartLevel=4',
+    '-Declipse.product=org.eclipse.jdt.ls.core.product',
+    '-Dlog.protocol=true',
+    '-Dlog.level=ALL',
+    '-Xms1g',
+    '--add-modules=ALL-SYSTEM',
+    '--add-opens',
+    'java.base/java.util=ALL-UNNAMED',
+    '--add-opens',
+    'java.base/java.lang=ALL-UNNAMED',
+    '-javaagent:' .. home .. '/.local/share/nvim/mason/packages/jdtls/lombok.jar',
+    '-jar',
+    vim.fn.glob(home .. '/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
+    '-configuration',
+    home .. '/.local/share/nvim/mason/packages/jdtls/config_' .. os_config,
+    '-data',
     workspace_dir,
   },
-  root_dir = require("jdtls.setup").find_root { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" },
+  root_dir = require('jdtls.setup').find_root { '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' },
 
   settings = {
     java = {
@@ -223,7 +231,7 @@ local config = {
         downloadSources = true,
       },
       configuration = {
-        updateBuildConfiguration = "interactive",
+        updateBuildConfiguration = 'interactive',
         -- runtimes = {
         --   {
         --     name = "JavaSE-11",
@@ -246,7 +254,7 @@ local config = {
       },
       inlayHints = {
         parameterNames = {
-          enabled = "all", -- literals, all, none
+          enabled = 'all', -- literals, all, none
         },
       },
       format = {
@@ -261,21 +269,21 @@ local config = {
   },
 }
 
-config["on_attach"] = function(client, bufnr)
+config['on_attach'] = function(client, bufnr)
   local _, _ = pcall(vim.lsp.codelens.refresh)
- require("jdtls").setup_dap({ hotcodereplace = "auto" })
- require("vim.lsp").on_attach(client, bufnr)
+  require('jdtls').setup_dap { hotcodereplace = 'auto' }
+  require('vim.lsp').on_attach(client, bufnr)
   -- local status_ok, jdtls_dap = pcall(require, "jdtls.dap")
   if status_ok then
     -- jdtls_dap.setup_dap_main_class_configs()
   end
 end
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  pattern = { "*.java" },
+vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+  pattern = { '*.java' },
   callback = function()
     local _, _ = pcall(vim.lsp.codelens.refresh)
   end,
 })
 
-require("jdtls").start_or_attach(config)
+require('jdtls').start_or_attach(config)
