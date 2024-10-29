@@ -111,7 +111,7 @@ vim.g.have_nerd_font = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
-vim.opt.nu = true
+vim.opt.number = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -129,6 +129,11 @@ vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
+
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.bo.softtabstop = 4
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
@@ -235,7 +240,7 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  -- 'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -1171,3 +1176,6 @@ require('lazy').setup({
 --
 -- require('cmp').setup { completion = { autocomplete = { require('cmp.types').cmp.TriggerEvent.InsertEnter } } }
 --
+vim.keymap.set('n', '<leader>ld', function()
+  vim.lsp.stop_client(vim.lsp.get_clients())
+end, { desc = '[l]sp [d]isable in all buffers, use :edit to enable' })
