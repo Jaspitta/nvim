@@ -127,7 +127,7 @@ os.execute('mkdir ' .. workspace_dir)
 -- }
 
 local config = {
-  cmd = { vim.fn.expand '~/AppData/Local/nvim-data/mason/bin/jdtls.cmd' },
+  cmd = { vim.fn.expand '$MASON/bin/jdtls' },
   -- cmd = {
   --   'java',
   --   '-Declipse.application=org.eclipse.jdt.ls.core.id1',
