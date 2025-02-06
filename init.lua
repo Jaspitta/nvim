@@ -819,7 +819,7 @@ require('lazy').setup({
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<M-l>'] = cmp.mapping.complete {},
+          ['<C-l>'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
@@ -829,7 +829,7 @@ require('lazy').setup({
           --
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.
-          ['<C-l>'] = cmp.mapping(function()
+          ['<M-l>'] = cmp.mapping(function()
             if luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             end
@@ -1042,25 +1042,25 @@ require('lazy').setup({
       { '<leader>lg', '<cmd>LazyGitCurrentFile<cr>', desc = 'LazyGitCurrentFile' },
     },
   },
-  {
-    'akinsho/toggleterm.nvim',
-    version = '*',
-    config = function()
-      require 'user.config'
-      require('toggleterm').setup {
-        size = 70,
-        -- open_mapping = '<A-/>',
-        start_in_insert = true,
-        -- direction = 'vertical',
-      }
-      vim.keymap.set('n', '<leader>tf', function()
-        require('toggleterm').toggle(nil, nil, nil, 'float', nil)
-      end, { desc = '[T]erminal [F]loat' })
-      vim.keymap.set('n', '<A-/>', function()
-        require('toggleterm').toggle(nil, 70, nil, 'vertical', nil)
-      end, { desc = 'Terminal Vertical' })
-    end,
-  },
+  -- {
+  --   'akinsho/toggleterm.nvim',
+  --   version = '*',
+  --   config = function()
+  --     require 'user.config'
+  --     require('toggleterm').setup {
+  --       size = 70,
+  --       -- open_mapping = '<A-/>',
+  --       start_in_insert = true,
+  --       -- direction = 'vertical',
+  --     }
+  --     vim.keymap.set('n', '<leader>tf', function()
+  --       require('toggleterm').toggle(nil, nil, nil, 'float', nil)
+  --     end, { desc = '[T]erminal [F]loat' })
+  --     vim.keymap.set('n', '<leader>tv', function()
+  --       require('toggleterm').toggle(nil, 70, nil, 'vertical', nil)
+  --     end, { desc = '[T]erminal [V]ertical' })
+  --   end,
+  -- },
   {
     'ThePrimeagen/vim-be-good',
   },

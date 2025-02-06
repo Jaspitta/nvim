@@ -158,29 +158,29 @@ local config = {
       },
       configuration = {
         updateBuildConfiguration = 'interactive',
-        --   runtimes = {
-        --     {
-        --       name = 'JavaSE-11',
-        --       path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\11.0.22-tem\\',
-        --     },
-        --     {
-        --       name = 'JavaSE-1.8',
-        --       path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\8.0.402-tem\\',
-        --     },
-        --     {
-        --       name = 'JavaSE-17',
-        --       path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\17.0.10-tem\\',
-        --     },
-        --     {
-        --       name = 'JavaSE-21',
-        --       path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\21.0.2-tem\\',
-        --     },
-        --   },
+        runtimes = {
+          --     {
+          --       name = 'JavaSE-11',
+          --       path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\11.0.22-tem\\',
+          --     },
+          {
+            name = 'JavaSE-1.8',
+            path = '/Users/u482024/.sdkman/candidates/java/8.0.442-amzn',
+          },
+          --     {
+          --       name = 'JavaSE-17',
+          --       path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\17.0.10-tem\\',
+          --     },
+          --     {
+          --       name = 'JavaSE-21',
+          --       path = 'C:\\Users\\U482024\\.sdkman\\candidates\\java\\21.0.2-tem\\',
+          --     },
+        },
       },
       maven = {
         downloadSources = true,
-        userSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
-        globalSettings = 'C:\\Users\\U482024\\.m2\\settings.xml',
+        userSettings = '/Users/u482024/.m2',
+        globalSettings = '/Users/u482024/.m2',
       },
       implementationsCodeLens = {
         enabled = true,
