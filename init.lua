@@ -130,10 +130,10 @@ vim.opt.breakindent = true
 -- Save undo history
 vim.opt.undofile = true
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
-vim.bo.softtabstop = 4
+vim.bo.softtabstop = 2
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
